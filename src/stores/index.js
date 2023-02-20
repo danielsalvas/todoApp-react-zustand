@@ -23,5 +23,7 @@ export const useStore = create((set) => ({
       completed: false,
     }
   ],
-  setTodos: (newTodo) => set({ todo: newTodo })
+  title: "",
+  setTodos: (newTodo) => set({ todos: newTodo }),
+  setTitle: (newTitle) => set({ title: newTitle })
 }));
