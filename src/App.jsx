@@ -1,19 +1,10 @@
 import { useState } from 'react'
 import Title from './components/Title';
 import Input from './components/Input';
-import { shallow } from "zustand/shallow";
 import { useStore } from './stores';
 import TodoList from './components/TodoList';
-import Todo from './components/Todo';
 
 function App() {
-
-  const { todo } = useStore(
-    (state) => ({
-      todo: state.todo
-    }),
-    shallow
-  );
 
   const { setTodo } = useStore();
 
@@ -22,9 +13,7 @@ function App() {
       <div className='container flex flex-col max-w-xl'>
         <Title />
         <Input />
-        <TodoList>
-          <Todo />
-        </TodoList>
+        <TodoList />
       </div>
     </div>
   )
