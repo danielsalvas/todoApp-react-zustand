@@ -4,15 +4,15 @@ import { useStore } from "../stores";
 
 const TodoList = () => {
 
-  const { todos } = useStore(
+  const { filteredTodos } = useStore(
     (state) => ({
-      todos: state.todos
+      filteredTodos: state.filteredTodos
     })
   );
 
   return (
     <div className='flex flex-col mt-7 rounded-xl overflow-hidden shadow-2xl'>
-      { todos.map( (todo) => (
+      { filteredTodos.map( (todo) => (
         <Todo key={todo.id} todo={todo} />
       ))}
       <TodoFilters />

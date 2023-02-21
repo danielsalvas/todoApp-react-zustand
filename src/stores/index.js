@@ -24,8 +24,12 @@ export const useStore = create((set, get) => ({
     }
   ],
   title: "",
+  activeFilter: 'all',
+  filteredTodos: [],
   setTodos: (newTodo) => set({ todos: newTodo }),
   setTitle: (newTitle) => set({ title: newTitle }),
+  setActiveFilter: (newActiveFilter) => set({ activeFilter: newActiveFilter }),
+  setFilteredTodos: (newFilteredTodos) => set({ filteredTodos: newFilteredTodos }),
   addTodo: (title) => {
 
     const todos = get().todos
@@ -60,5 +64,20 @@ export const useStore = create((set, get) => ({
     const todos = get().todos
     const updatedList = todos.filter( todo => todo.id !== id)
     get().setTodos(updatedList)
+  },
+  handleClearCompleted: () => {
+
+    const todos = get().todos
+    const updatedList = todos.filter( todo => !todo.completed)
+    get().setTodos(updatedList)
+  },
+  showAllTodos: () => {
+    get().setActiveFilter('all')
+  },
+  showActiveTodos: () => {
+    get().setActiveFilter('active')
+  },
+  showCompletedTodos: () => {
+    get().setActiveFilter('completed')
   }
 }));

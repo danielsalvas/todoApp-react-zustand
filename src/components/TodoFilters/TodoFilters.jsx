@@ -1,21 +1,31 @@
 import React from 'react'
+import { useStore } from '../../stores';
 
 const TodoFilters = () => {
-  return (
-    <div>
-      <FiltersContainer>
-        <ItemsLeft />
-        <FilterButtonContainer>
-            <FilterButton action={() => {}} active="All" filter="All" />
-            <FilterButton action={() => {}} active="All" filter="Active" />
-            <FilterButton action={() => {}} active="All" filter="Completed" />
-        </FilterButtonContainer>
 
-        <button className='text-gray-400 hover:text-white cursor-pointer transition-all duration-300 ease-in-out'>
-            Clear Completed
-        </button>
-      </FiltersContainer>
-    </div>
+    const { activeFilter } = useStore(
+        (state) => ({
+          activeFilter: state.activeFilter
+        })
+      );
+
+      const { showAllTodos, showActiveTodos, showCompletedTodos, handleClearCompleted } = useStore();
+
+    return (
+        <div>
+        <FiltersContainer>
+            <ItemsLeft />
+            <FilterButtonContainer>
+                <FilterButton action={() => showAllTodos()} active={activeFilter} filter="All" />
+                <FilterButton action={() => showActiveTodos()} active={activeFilter} filter="Active" />
+                <FilterButton action={() => showCompletedTodos()} active={activeFilter} filter="Completed" />
+            </FilterButtonContainer>
+
+            <button onClick={() => handleClearCompleted()} className='text-gray-400 hover:text-white cursor-pointer transition-all duration-300 ease-in-out'>
+                Clear Completed
+            </button>
+        </FiltersContainer>
+        </div>
   )
 }
 
@@ -31,10 +41,17 @@ const FiltersContainer = ( { children } ) => {
     )
 }
 
-const ItemsLeft = ({ total = 0 }) => {
+const ItemsLeft = () => {
+
+    const { todos } = useStore(
+        (state) => ({
+          todos: state.todos,
+        })
+      );
+
     return (
         <p className="text-gray-400 text-sm">
-            {total} items left
+            {todos.length} items left
         </p>
     )
 }
@@ -49,7 +66,7 @@ const FilterButtonContainer = ({ children }) => {
 
 const FilterButton = ({ action, active, filter }) => {
     return (
-        <button className={`hover:text-white text-gray-400 cursor-pointer transition-all duration-300 ease-in-out ${active.toLowerCase().includes(filter.toLowerCase()) ? 'text-blue-400' : 'text-gray-400'}`}>
+        <button onClick={action} className={`hover:text-white text-gray-400 cursor-pointer transition-all duration-300 ease-in-out ${active.toLowerCase().includes(filter.toLowerCase()) ? 'text-blue-600' : 'text-gray-400'}`}>
             {filter}
         </button>
     )
