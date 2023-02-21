@@ -1,6 +1,6 @@
 import { create } from "zustand";
 
-export const useStore = create((set) => ({
+export const useStore = create((set, get) => ({
   todos: [
     {
       id: 1,
@@ -25,5 +25,40 @@ export const useStore = create((set) => ({
   ],
   title: "",
   setTodos: (newTodo) => set({ todos: newTodo }),
-  setTitle: (newTitle) => set({ title: newTitle })
+  setTitle: (newTitle) => set({ title: newTitle }),
+  addTodo: (title) => {
+
+    const todos = get().todos
+    const lastId = todos.length > 0 ? todos[todos.length -1].id : 1;
+      
+      const newTodo = {
+        id: lastId + 1,
+        title,
+        completed: false
+      }
+  
+      const todoList = [...todos]
+      todoList.push(newTodo)
+  
+      get().setTodos(todoList);
+  },
+  handleSetCompleted: (id) => {
+
+    const todos = get().todos
+    const updatedList = todos.map( todo => {
+      if (todo.id === id) {
+        return { ...todo, completed: !todo.completed}
+      }
+
+      return todo;
+    })
+
+    get().setTodos(updatedList)
+  },
+  handleDelete: (id) => {
+
+    const todos = get().todos
+    const updatedList = todos.filter( todo => todo.id !== id)
+    get().setTodos(updatedList)
+  }
 }));

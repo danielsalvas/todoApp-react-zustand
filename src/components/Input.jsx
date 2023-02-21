@@ -1,24 +1,21 @@
-import React from 'react'
 import { useStore } from '../stores'
 
-const Input = ({ addTodo }) => {
+const Input = () => {
 
   const { title } = useStore(
     (state) => ({
       title: state.title
     })
   );
-  const { setTitle } = useStore();
+  const { setTitle, addTodo } = useStore();
 
   const handleTodo = (e) => {
     if (e.key.toLowerCase() === 'enter') {
       addTodo(title)
       setTitle("")
-      console.log(title);
     }
   }
   
-
   return (
     <div className='mt-6 relative'>
       <div className='absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none'>
